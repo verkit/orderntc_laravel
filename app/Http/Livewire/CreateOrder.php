@@ -78,11 +78,15 @@ class CreateOrder extends Component
 
     public function mount()
     {
-        $date = Carbon::now();
         $this->deletePelanggan();
         $this->deleteBarang();
-        $this->noorder = $date->isoFormat('YMD') . (($date->hour * 60) + $date->minute) . Auth::id();
         $this->total = 0;
+        $this->setNoOrder();
+    }
+
+    public function setNoOrder(){
+        $date = Carbon::now();
+        $this->noorder = $date->isoFormat('YMD') . (($date->hour * 60) + $date->minute) . Auth::id();
     }
 
     public function resetAll()
@@ -236,6 +240,7 @@ class CreateOrder extends Component
         $this->orders = [];
         $this->deleteBarang();
         $this->deletePelanggan();
+        $this->setNoOrder();
         session()->flash('success-order', 'Order berhasil ditambahkan');
     }
 }
